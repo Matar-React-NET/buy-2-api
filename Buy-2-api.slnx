@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Buy2.Api/Buy2.Api.csproj" />
+    <Project Path="src/Buy2.Application/Buy2.Application.csproj" />
+    <Project Path="src/Buy2.Domain/Buy2.Domain.csproj" />
+    <Project Path="src/Buy2.Infrastructure/Buy2.Infrastructure.csproj" />
+  </Folder>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
+</Solution>

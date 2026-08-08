@@ -1,0 +1,29 @@
+services:
+  api:
+    image: ${DOCKER_REGISTRY-}buy2api
+    build:
+      context: .
+      dockerfile: src/Buy2.Api/Dockerfile
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+      image: mcr.microsoft.com/mssql/server:2025-latest
+      ports:
+        - "1433:1433"
+      volumes:
+        - sql_server_data:/var/opt/mssql
+      environment:
+        ACCEPT_EULA: "Y"
+        MSSQL_SA_PASSWORD: "${SQL_SERVER_SA_PASSWORD}"
+        MSSQL_PID: "Express"
+      healthcheck:
+        test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${SQL_SERVER_SA_PASSWORD}", "-Q", "SELECT 1", "-b", "-o", "/dev/null"]
+        interval: 10s
+        timeout: 3s
+        retries: 10
+        start_period: 10s
+         
+volumes:
+  sql_server_data:
