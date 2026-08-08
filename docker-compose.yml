@@ -4,26 +4,48 @@ services:
     build:
       context: .
       dockerfile: src/Buy2.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - ASPNETCORE_URLS=http://+:8080
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - ConnectionStrings__DefaultConnection=Server=localhost; Database=HRMS; User Id=sa; Password=${SQL_SERVER_SA_PASSWORD}; Encrypt=False; MultipleActiveResultSets=True;
     depends_on:
       database:
         condition: service_healthy
 
   database:
-      image: mcr.microsoft.com/mssql/server:2025-latest
-      ports:
-        - "1433:1433"
-      volumes:
-        - sql_server_data:/var/opt/mssql
-      environment:
-        ACCEPT_EULA: "Y"
-        MSSQL_SA_PASSWORD: "${SQL_SERVER_SA_PASSWORD}"
-        MSSQL_PID: "Express"
-      healthcheck:
-        test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${SQL_SERVER_SA_PASSWORD}", "-Q", "SELECT 1", "-b", "-o", "/dev/null"]
-        interval: 10s
-        timeout: 3s
-        retries: 10
-        start_period: 10s
-         
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_server_data:/var/opt/mssql
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "${SQL_SERVER_SA_PASSWORD}"
+      MSSQL_PID: "Express"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "/opt/mssql-tools18/bin/sqlcmd",
+          "-C",
+          "-S",
+          "localhost",
+          "-U",
+          "sa",
+          "-P",
+          "${SQL_SERVER_SA_PASSWORD}",
+          "-Q",
+          "SELECT 1",
+          "-b",
+          "-o",
+          "/dev/null",
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
 volumes:
   sql_server_data:
