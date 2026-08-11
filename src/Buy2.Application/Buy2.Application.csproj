@@ -7,6 +7,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="FluentValidation" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+		<PackageReference Include="Scrutor" />
+		<PackageReference Include="Serilog" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\Buy2.Domain\Buy2.Domain.csproj" />
 	</ItemGroup>
 

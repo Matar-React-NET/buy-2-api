@@ -1,3 +1,5 @@
+using Buy2.Application;
+
 namespace Buy2.Api;
 
 
@@ -12,6 +14,8 @@ public static class Program
         builder.Services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
+
+        builder.Services.AddApplication();
 
         WebApplication app = builder.Build();
 
